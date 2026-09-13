@@ -1,0 +1,62 @@
+# Development Skills
+
+> 理论基础：[`Powers AI Coding SOP`](AI%20Coding%20SOP.md)
+
+一套完整的 AI 辅助开发方法：把一次需求从业务理解、技术设计、测试设计，推进到编码实现、
+问题处理和需求复盘。它约束的是人和 AI 各自负责什么、每个阶段要留下什么证据、什么时候
+必须停下来确认。
+
+`Powers AI Coding SOP` 定义人和 AI 的职责、开发阶段、上下文组织、反馈选择、验证边界与
+交付原则。本目录中的 Skills 是该体系的工程落地实践，把不同开发场景转化为可以直接执行、
+组合和验收的工具。
+
+## 实践入口
+
+| 实践层 | Skill | 职责 |
+| --- | --- | --- |
+| 项目认知 | [`runtime-model`](runtime-model/SKILL.md) | 从已有仓库代码提炼项目整体能力、核心对象、运行流程与系统边界；不做局部代码讲解，也不作为未来方案设计的默认入口 |
+| 业务与方案 | [`biz`](biz/SKILL.md) | 理解业务、识别盲区并沉淀当前认知 |
+| 业务与方案 | [`design`](design/SKILL.md) | 确认稳定技术事实并产出必要设计与接口契约 |
+| 业务与方案 | [`test-design`](test-design/SKILL.md) | 把需求和设计转化为功能与回归测试预期 |
+| 开发执行 | [`dev`](dev/SKILL.md) | 实现新增、调整或重构，并完成与风险匹配的验证 |
+| 问题处理 | [`debug`](debug/SKILL.md) | 复现问题、定位根因并给出修复建议 |
+| 问题处理 | [`fix`](fix/SKILL.md) | 对已确认缺陷实施最小修复并验证原始路径 |
+| 人工对齐 | [`cr`](cr/SKILL.md) | 解释和判断人工反馈，再决定后续开发入口 |
+| 专项实践 | [`coding-standards`](coding-standards/SKILL.md) | 约束生产代码实现 |
+| 专项实践 | [`unit-test`](unit-test/SKILL.md) | 为复杂或无 API 入口的内部逻辑建立白盒反馈 |
+| 专项实践 | [`it-test`](it-test/SKILL.md) | 通过真实 HTTP 验证 API 契约、数据和副作用 |
+| 专项实践 | [`subagent`](subagent/SKILL.md) | 把可独立完成的工作交给独立上下文的 Sub-agent，回收并复核结果 |
+| 完成复盘 | [`recap`](recap/SKILL.md) | 复盘已完成需求并沉淀项目知识、协作经验，需要时补齐简历与面试材料 |
+
+## 怎么组合使用
+
+```text
+Powers AI Coding SOP
+  → 判断当前开发阶段与证据要求
+  → 选择一个必要入口 Skill
+  → 按风险加载编码、测试或 Subagent 专项实践
+  → 完成实现、验证、Review 与授权交付
+```
+
+简单、局部、低风险的开发任务可以直接处理，不为使用 Skills 而使用 Skills。复杂需求、
+真实链路和高风险行为则按照 SOP 选择足以证明结果的工程实践。
+
+## 适用边界与个性化项
+
+编码规范、测试框架和工程约定按 Java / Spring 后端项目描述，换其他语言时替换
+`coding-standards`、`unit-test`、`it-test` 三个单元即可；SOP 与其余流程 Skill 描述的是
+人机协作方式，与技术栈无关。
+
+下列是这套方法里的个性化选择，可以按自己的项目调整。
+
+| 个性化项 | 本套现状 | 建议怎么改 | 等级 |
+| --- | --- | --- | --- |
+| 技术栈 | Java / Spring 后端 | 换语言时替换 `coding-standards`、`unit-test`、`it-test` | P1 |
+| 产物路径 | `docs/powers/` | 改成你项目的文档目录 | P1 |
+| 编码规范 | 按 Java / Spring 约定 | 按你的团队规范改 `coding-standards` | P1 |
+| 分支策略 | 受保护分支约定 | 按你的分支模型改 | P1 |
+| 注释与文件头 | 中文注释、`@author` 模板 | 按你的注释规范改 | P2 |
+| 面试标准 | 大厂春秋招压力标准（`recap` 可选产出） | 按目标岗位调整 | P2 |
+
+等级表示建议修改的程度：P0 不改跑不起来，P1 与你的项目约定冲突，P2 只影响风格和习惯，
+P3 纯个人口味。这套里没有 P0 和 P3 的条目。

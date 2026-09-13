@@ -1,0 +1,102 @@
+@RunWith(Enclosed.class)
+public class ${CONTROLLER_CLASS}IT {
+
+    /** 多个 API 共享的运行配置。 */
+    private static final String BASE_URL = "${BASE_URL}";
+    private static final String COOKIE = "${COOKIE}";
+    private static final int MAX_RESPONSE_LOG_LENGTH = 5000;
+
+    /** 文件级已验证测试数据目录；先按方向分类，再记录可复用的具体 fixture。 */
+    private static final class VerifiedFixtures {
+
+        /**
+         * 方向：${FIXTURE_DIRECTION}。
+         * 用途：为 ${FIXTURE_DIRECTION_PURPOSE} 提供可复用真实数据。
+         */
+        private static final class ${DIRECTION_FIXTURES_CLASS} {
+
+            /**
+             * Fixture：${FIXTURE_NAME}。
+             * 用途：${FIXTURE_PURPOSE}。
+             * 精确来源：${EXACT_SOURCE}。
+             * 业务含义与关系：${FIXTURE_RELATION}。
+             * 已确认结果：${VERIFIED_RESULT}。
+             * 可复用范围与限制：${FIXTURE_SCOPE_AND_LIMITS}。
+             * 最近核验：${LAST_VERIFIED_DATE}；失效后按上述来源重新查询、验证并更新。
+             */
+            private static final class ${FIXTURE_CLASS} {
+
+                private static final long ENTITY_ID = ${ENTITY_ID};
+                private static final int ENTITY_TYPE = ${ENTITY_TYPE};
+            }
+        }
+    }
+
+    /**
+     * POST ${FIRST_API_PATH} - ${FIRST_API_NAME}
+     */
+    public static class FirstApiTest {
+
+        private static final String API_PATH = "${FIRST_API_PATH}";
+
+        @Test
+        public void existingBusiness() throws Exception {
+            ApiResponse response = sendPost(API_PATH, buildValidRequest());
+
+            printResponse("查询已存在业务", response);
+            assertSuccessful(response);
+            assertKnownHitResult(response);
+        }
+
+        @Test
+        public void missingEntityType() throws Exception {
+            Map<String, Object> request = buildValidRequest();
+            request.remove("entityType");
+
+            ApiResponse response = sendPost(API_PATH, request);
+
+            printResponse("缺少实体类型", response);
+            assertParamError(response);
+        }
+
+        private static Map<String, Object> buildValidRequest() {
+            Map<String, Object> request = new HashMap<>();
+            request.put("entityId",
+                    VerifiedFixtures.${DIRECTION_FIXTURES_CLASS}.${FIXTURE_CLASS}.ENTITY_ID);
+            request.put("entityType",
+                    VerifiedFixtures.${DIRECTION_FIXTURES_CLASS}.${FIXTURE_CLASS}.ENTITY_TYPE);
+            return request;
+        }
+    }
+
+    /**
+     * GET ${SECOND_API_PATH} - ${SECOND_API_NAME}
+     */
+    public static class SecondApiTest {
+
+        private static final String API_PATH = "${SECOND_API_PATH}";
+
+        @Test
+        public void existingQuery() throws Exception {
+            ApiResponse response = sendGet(API_PATH, "entityId",
+                    VerifiedFixtures.${DIRECTION_FIXTURES_CLASS}.${FIXTURE_CLASS}.ENTITY_ID);
+
+            printResponse("查询已存在数据", response);
+            assertSuccessful(response);
+            assertKnownHitResult(response);
+        }
+    }
+
+    private static void printResponse(String scenario, ApiResponse response) {
+        String formatted = JSON.toJSONString(response.body, true);
+        int fullLength = formatted.length();
+        if (fullLength > MAX_RESPONSE_LOG_LENGTH) {
+            formatted = formatted.substring(0, MAX_RESPONSE_LOG_LENGTH)
+                    + "\n... 响应已截断，完整长度=" + fullLength;
+        }
+        System.out.println("【" + scenario + "】HTTP " + response.statusCode);
+        System.out.println(formatted);
+    }
+
+    // 每个新增 API 都建立独立静态内部类，并通过自身方法和路径发起真实请求。
+}
