@@ -1,12 +1,12 @@
 # Development Skills
 
-> 理论基础：[`Powers AI Coding SOP`](AI%20Coding%20SOP.md)
+> 理论基础：[`AI Coding SOP`](ai-coding-sop.md)
 
 一套完整的 AI 辅助开发方法：把一次需求从业务理解、技术设计、测试设计，推进到编码实现、
 问题处理和需求复盘。它约束的是人和 AI 各自负责什么、每个阶段要留下什么证据、什么时候
 必须停下来确认。
 
-`Powers AI Coding SOP` 定义人和 AI 的职责、开发阶段、上下文组织、反馈选择、验证边界与
+`AI Coding SOP` 定义人和 AI 的职责、开发阶段、上下文组织、反馈选择、验证边界与
 交付原则。本目录中的 Skills 是该体系的工程落地实践，把不同开发场景转化为可以直接执行、
 组合和验收的工具。
 
@@ -31,7 +31,7 @@
 ## 怎么组合使用
 
 ```text
-Powers AI Coding SOP
+AI Coding SOP
   → 判断当前开发阶段与证据要求
   → 选择一个必要入口 Skill
   → 按风险加载编码、测试或 Subagent 专项实践
